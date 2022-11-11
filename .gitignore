@@ -1,0 +1,14 @@
+node_modules
+.env
+./security
+build
+yarn.lock
+commands/*
+logs/*
+package-lock.json
+.data
+storage/*
+test/
+temp/
+Dockerfile
+logs
