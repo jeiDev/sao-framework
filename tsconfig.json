@@ -32,7 +32,7 @@
       "@libs": ["libs"],
       "@libs/*": ["libs/*"],
       "@interfaces": ["interfaces"],
-      "@interfaces/*": ["interfaces/*"],
+      "@interfaces/*": ["interfaces/*"]
     }
   },
   "ts-node": {

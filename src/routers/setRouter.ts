@@ -6,20 +6,22 @@ export default class SetRouter {
     private recurrentSetRouter(routers: RouterI[], _router: Router){
         let router = routers.shift()
         if(!router) return
-
-        if(!router.routers?.length && router.method && router.controller){
-            _router[router.method](`${router.path}`, router.middlewares || [], router.controller)
-            this.recurrentSetRouter(routers, _router)
-            return
-        }else if((!router.routers?.length && (!router.method || !router.controller)) || !router.routers?.length){
-            logger.error("invalid router", router.path, router.method)
-            this.recurrentSetRouter(routers, _router)
-            return
-        }
         
-        let nextRouter = Router()
-        _router.use(`${router.path}`, nextRouter)
-        this.recurrentSetRouter(router.routers, nextRouter)
+        let _routers = router.routers || []
+        let _middlewares = router.middlewares || []
+
+        if(router.path && router.method && router.controller){
+            _router[router.method](`${router.path}`, _middlewares, router.controller)
+            this.recurrentSetRouter(routers, _router)
+        }
+
+        if(_routers.length){
+            let nextRouter = Router()
+            _router.use(router.path, _middlewares, nextRouter)
+            this.recurrentSetRouter(_routers, nextRouter)
+        }
+
+        this.recurrentSetRouter(routers, _router)
     }
 
     protected setRouters(routers: RouterI[]){
